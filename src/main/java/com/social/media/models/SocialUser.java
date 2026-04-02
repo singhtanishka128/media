@@ -17,12 +17,15 @@ public class SocialUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(mappedBy = "user", cascade = {CascadeType.REMOVE,CascadeType.PERSIST, CascadeType.MERGE})    private SocialProfile socialProfile;
+    @OneToOne(mappedBy = "user",
+            cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE},
+            fetch = FetchType.LAZY
+    )
 
     @OneToMany(mappedBy = "socialUser", cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
     private List<Post> posts = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_group",
             joinColumns = @JoinColumn(name = "user_id"),
